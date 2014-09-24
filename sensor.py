@@ -1,6 +1,4 @@
-
-
-
+import praw
 import json
 import twitter
 
@@ -15,7 +13,33 @@ class Sensor(object):
 		self.api = twitter.Twitter(auth=auth)
 
 
+	def postsFromReddit(self, subreddits, limit):
+		if type(subreddits) != list:
+			subreddits = [subreddits]
 	
-
+		r = praw.Reddit(user_agent='hirihiker')
+		
+		content = []
+		
+		for sub in subreddits:
+			posts = r.get_subreddit(sub).get_hot(limit = limit)
+		
+			for post in posts:
+				content.append(post)
+		
+		tweetables = []
+		for post in content:
+			if post.url.find('imgur') > 0 and post.num_comments > 0:
+				if len(post.comments[0].body + ' ' + post.url) <= 140:
+					tweetables.append(post.comments[0].body + ' ' + post.url)
+		
+		idx = 0
+		for twt in tweetables:
+			print str(idx) +': ' + twt
+			idx += 1
+		print 'Please select post to tweet:'	
+		idx = input()
+		if type(idx) == int and idx>=0:
+			pass
 
 s = Sensor()
