@@ -1,6 +1,7 @@
 import praw
 import json
 import twitter
+from datetime import datetime
 from random import sample
 from time import sleep
 
@@ -65,7 +66,9 @@ class Sensor(object):
 		with open('../data/new_friends.json','wb') as out:
 			json.dump(new_friends,out)
 	
+	def test(self):
+		msg = "cron job test sent at", datetime.now()
+		self.api.direct_messages.new(screen_name="hirihiker",text=msg)
 		
 s = Sensor()
-s.bad_friends()
-s.new_friends()
+s.test()
