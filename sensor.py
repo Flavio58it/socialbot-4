@@ -1,7 +1,8 @@
 import praw
 import json
 import twitter
-
+from random import sample
+from time import sleep
 
 class Sensor(object):
 	def __init__(self,path="../auth.json"):
@@ -50,5 +51,21 @@ class Sensor(object):
 		if type(idx) == int and idx>=0:
 			pass
 
+
+
+	def new_friends(self):
+		new_friends = []
+		fol_ids = self.api.followers.ids()['ids']
+		selected_followers = sample(fol_ids,15)
+		for fol_id in selected_followers:
+			new_friends += self.api.followers.ids(user_id=fol_id)['ids']
+		
+		new_friends = list(set(new_friends))
+		
+		with open('../data/new_friends.json','wb') as out:
+			out.write(json.dump(new_friends))
+	
+		
 s = Sensor()
 s.bad_friends()
+s.new_friends()
