@@ -80,17 +80,17 @@ if __name__ == '__main__':
 	if method == 'post':
 		actor.postTwt()
 	elif method == 'fav':
-		actor.favoritePost(count = c)
+		actor.favoritePost()
 		counts['fav'] += 1
 		if counts['fav'] > maxes['fav']:
 			counts['fav'] = maxes['fav']
 	elif method == 'fol':
-		actor.follow(count = c)
+		actor.follow()
 		counts['fol'] += 1
 		if counts['fol'] > maxes['fol']:
 			counts['fol'] = maxes['fol']
 	elif method == 'unfol':
-		actor.unfollow(count = c)
+		actor.unfollow()
 		counts['unfol'] += 1
 		if counts['unfol'] > maxes['unfol']:
 			counts['unfol'] = maxes['unfol']
