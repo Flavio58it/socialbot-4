@@ -2,6 +2,7 @@ import json
 import twitter
 import json
 import time
+from datetime import datetime
 from numpy import random
 
 class Actor(object):
@@ -59,6 +60,10 @@ class Actor(object):
 		json.dump(twts, open('/home/ubuntu/to_tweet.json','wb'))
 		return 1  # no. api calls
 
+	def send_log(self):
+		msg = "Running routine", datetime.now()
+		self.api.direct_messages.new(screen_name="SuperRexy",text=msg)
+
 
 if __name__ == '__main__':
 	#initial wait:
@@ -91,4 +96,5 @@ if __name__ == '__main__':
 			counts['unfol'] = maxes['unfol']
 
 	wait_time = random.poisson(1*60)
+	actor.send_log()
 	time.sleep(wait_time)
