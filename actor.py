@@ -21,6 +21,8 @@ class Actor(object):
 				usr_id = bad_friends.pop()
 				print 'Destroying friendship: ' + str(usr_id)
 				self.api.friendships.destroy(user_id = usr_id)
+		if len(bad_friends) == 0:
+			bad_friends = []
 		json.dump(bad_friends, open('/home/ubuntu/bad_friends.json','wb'))
 		return count     # no. api calls
 
@@ -35,6 +37,8 @@ class Actor(object):
 					status = self.api.statuses.user_timeline(user_id=usr_id, count = 1)[0]  # can be extended to favorite random twt
 					to_favorite = json.load(open('/home/ubuntu/to_favorite.json'))
 					json.dump(to_favorite.append(status['id']), open('/home/ubuntu/to_favorite.json', 'wb'))
+		if len(new_friends) == 0:
+			new_friends = []
 		json.dump(new_friends, open('/home/ubuntu/new_friends.json','wb'))
 		calls = count 
 		if favoritetwt:
@@ -48,6 +52,8 @@ class Actor(object):
 				status_id = to_favorite.pop()
 				print 'Favoriting status: ' + str(status_id)
 				self.api.favorites.create(_id = status_id)
+		if len(to_favorite) == 0:
+			to_favorite = []
 		json.dump(to_favorite, open('/home/ubuntu/to_favorite.json', 'wb'))
 		return count # no. api calls
 
@@ -57,6 +63,8 @@ class Actor(object):
 			twt = twts.pop()
 			print 'Posting twt: ' + twt
 			self.api.statuses.update(status = twt)
+		if len(twts) == 0:
+			twts = []
 		json.dump(twts, open('/home/ubuntu/to_tweet.json','wb'))
 		return 1  # no. api calls
 
