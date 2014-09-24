@@ -63,7 +63,7 @@ class Sensor(object):
 		new_friends = list(set(new_friends))
 		
 		with open('../data/new_friends.json','wb') as out:
-			out.write(json.dump(new_friends))
+			json.dump(new_friends,out)
 	
 		
 s = Sensor()
