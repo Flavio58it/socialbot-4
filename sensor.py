@@ -57,13 +57,13 @@ class Sensor(object):
 	def new_friends(self):
 		new_friends = []
 		fol_ids = self.api.followers.ids()['ids']
-		selected_followers = sample(fol_ids,15)
+		selected_followers = sample(fol_ids,1)
 		for fol_id in selected_followers:
 			new_friends += self.api.followers.ids(user_id=fol_id)['ids']
 		
 		new_friends = list(set(new_friends))
 		
-		with open('../data/new_friends.json','wb') as out:
+		with open('/home/ubuntu/data/new_friends.json','wb') as out:
 			json.dump(new_friends,out)
 	
 	def test(self):
@@ -71,4 +71,4 @@ class Sensor(object):
 		self.api.direct_messages.new(screen_name="hirihiker",text=msg)
 		
 s = Sensor()
-s.test()
+s.new_friends()
