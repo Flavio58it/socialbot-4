@@ -60,8 +60,8 @@ class Actor(object):
 		json.dump(twts, open('/home/ubuntu/to_tweet.json','wb'))
 		return 1  # no. api calls
 
-	def send_log(self):
-		msg = "Running routine", datetime.now()
+	def send_log(self, method):
+		msg = "Running routine", datetime.now(), method
 		self.api.direct_messages.new(screen_name="SuperRexy",text=msg)
 
 
@@ -73,28 +73,33 @@ if __name__ == '__main__':
 	counts = {'post':0, 'fav':0, 'fol':0, 'unfol':0} 
 	maxes = {'post':2, 'fav':10, 'fol':25, 'unfol':25}
 	methods = ['post', 'fav', 'fol', 'unfol']
-	probs = [maxes[key] - counts[key] for key in methods]
-	probs = [1.0*elm/sum(probs) for elm in probs]
-	
-	method = random.choice(methods, size = 1, replace = False, p = probs)
-	if method == 'post':
-		actor.postTwt()
-	elif method == 'fav':
-		actor.favoritePost()
-		counts['fav'] += 1
-		if counts['fav'] > maxes['fav']:
-			counts['fav'] = maxes['fav']
-	elif method == 'fol':
-		actor.follow()
-		counts['fol'] += 1
-		if counts['fol'] > maxes['fol']:
-			counts['fol'] = maxes['fol']
-	elif method == 'unfol':
-		actor.unfollow()
-		counts['unfol'] += 1
-		if counts['unfol'] > maxes['unfol']:
-			counts['unfol'] = maxes['unfol']
+	start = time.time()
+	while time.time() - start < 3600:
+		probs = [maxes[key] - counts[key] for key in methods]
+		probs = [1.0*elm/sum(probs) for elm in probs]
+		
 
-	wait_time = random.poisson(1*60)
-	actor.send_log()
-	time.sleep(wait_time)
+		method = random.choice(methods, size = 1, replace = False, p = probs)
+		if method == 'post':
+			actor.postTwt()
+		elif method == 'fav':
+			actor.favoritePost()
+			counts['fav'] += 1
+			if counts['fav'] > maxes['fav']:
+				counts['fav'] = maxes['fav']
+		elif method == 'fol':
+			actor.follow()
+			counts['fol'] += 1
+			if counts['fol'] > maxes['fol']:
+				counts['fol'] = maxes['fol']
+		elif method == 'unfol':
+			actor.unfollow()
+			counts['unfol'] += 1
+			if counts['unfol'] > maxes['unfol']:
+				counts['unfol'] = maxes['unfol']
+
+		wait_time = random.poisson(1*60)
+		actor.send_log(method)
+		print method
+		time.sleep(wait_time)
+
