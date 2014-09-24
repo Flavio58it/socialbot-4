@@ -6,7 +6,7 @@ from random import sample
 from time import sleep
 
 class Sensor(object):
-	def __init__(self,path="../auth.json"):
+	def __init__(self,path="/home/ubuntu/auth.json"):
 		keys = json.loads(file(path).read())	
 		
 		auth = twitter.OAuth(keys['OAUTH_TOKEN'], keys['OAUTH_TOKEN_SECRET'],
