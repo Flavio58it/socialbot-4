@@ -69,7 +69,7 @@ if __name__ == '__main__':
 	maxes = {'post':2, 'fav':10, 'fol':25, 'unfol':25}
 	methods = ['post', 'fav', 'fol', 'unfol']
 	probs = [maxes[key] - counts[key] for key in methods]
-	probs = 1.0 * probs / sum(probs)
+	probs = [1.0*elm/sum(probs) for elm in probs]
 	
 	method = random.choice(methods, size = 1, replace = False, p = probs)
 	if method == 'post':
