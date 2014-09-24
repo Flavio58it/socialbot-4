@@ -19,5 +19,4 @@ class Actor(object):
 
 
 
-
 a = Sensor()
