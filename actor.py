@@ -99,7 +99,7 @@ if __name__ == '__main__':
 			#if counts['fav'] > maxes['fav']:
 			#	counts['fav'] = maxes['fav']
 		elif method == 'fol':
-			actor.follow()
+			actor.follow(favoritetwt = False)
 			counts['fol'] += 1
 			if counts['fol'] > maxes['fol']:
 				counts['fol'] = maxes['fol']
