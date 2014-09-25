@@ -36,6 +36,7 @@ class Actor(object):
 				if favoritetwt:
 					status = self.api.statuses.user_timeline(user_id=usr_id, count = 1)[0]  # can be extended to favorite random twt
 					to_favorite = json.load(open('/home/ubuntu/to_favorite.json'))
+					print 'Added status: ' + str(status) + ' for future favorite.' 
 					json.dump(to_favorite.append(status['id']), open('/home/ubuntu/to_favorite.json', 'wb'))
 		if len(new_friends) == 0:
 			new_friends = []
@@ -89,12 +90,14 @@ if __name__ == '__main__':
 
 		method = random.choice(methods, size = 1, replace = False, p = probs)
 		if method == 'post':
-			actor.postTwt()
+			pass
+			#actor.postTwt()
 		elif method == 'fav':
-			actor.favoritePost()
-			counts['fav'] += 1
-			if counts['fav'] > maxes['fav']:
-				counts['fav'] = maxes['fav']
+			pass
+			#actor.favoritePost()
+			#counts['fav'] += 1
+			#if counts['fav'] > maxes['fav']:
+			#	counts['fav'] = maxes['fav']
 		elif method == 'fol':
 			actor.follow()
 			counts['fol'] += 1
