@@ -85,4 +85,6 @@ class Sensor(object):
 		self.api.direct_messages.new(screen_name="hirihiker",text=msg)
 		
 s = Sensor(path = '../')
-#s.new_friends()
+s.new_friends()
+s.bad_friends()
+s.new_top_retweet()

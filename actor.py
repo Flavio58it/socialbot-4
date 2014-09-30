@@ -90,10 +90,10 @@ if __name__ == '__main__':
 	actor = Actor()
 
 	counts = {'post':0, 'fav':0, 'fol':0, 'unfol':0}
-	maxes = {'post':2, 'fav':10, 'fol':25, 'unfol':25}
+	maxes = {'post':1, 'fav':10, 'fol':25, 'unfol':25}
 	methods = ['post', 'fav', 'fol', 'unfol']
 	start = time.time()
-	while time.time() - start < 3600:
+	while time.time() - start < 3600 or counts['post'] != 1:
 		probs = [maxes[key] - counts[key] for key in methods]
 		probs = [1.0*elm/sum(probs) for elm in probs]
 		
