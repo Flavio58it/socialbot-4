@@ -71,9 +71,6 @@ class Sensor(object):
 		for twt in twts_in_TL:
 			twt_dic[twt['id']] = twt['retweet_count']
 		sort_dic = sorted(twt_dic.items(), key = lambda elm: elm[1])
-		print sort_dic
-		print sort_dic[-1]
-		print sort_dic[-1][0]
 		new_retweet = [sort_dic[-1][0]]
 
 		with open(self.path + 'data/retweets.json','wb') as out:

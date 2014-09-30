@@ -86,7 +86,7 @@ class Actor(object):
 
 if __name__ == '__main__':
 	#initial wait:
-	time.sleep(random.uniform(1,30))
+	#time.sleep(random.uniform(1,30))
 	actor = Actor()
 
 	counts = {'post':0, 'fav':0, 'fol':0, 'unfol':0}
@@ -120,7 +120,7 @@ if __name__ == '__main__':
 			if counts['unfol'] > maxes['unfol']:
 				counts['unfol'] = maxes['unfol']
 
-		wait_time = random.poisson(1*60)
+		wait_time = random.poisson(1*5)
 		actor.send_log(method)
 		print method
 		time.sleep(wait_time)
