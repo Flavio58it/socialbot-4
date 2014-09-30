@@ -90,7 +90,7 @@ if __name__ == '__main__':
 	actor = Actor()
 
 	counts = {'post':0, 'fav':0, 'fol':0, 'unfol':0}
-	maxes = {'post':1, 'fav':10, 'fol':25, 'unfol':25}
+	maxes = {'post':1, 'fav':10, 'fol':2, 'unfol':2}
 	methods = ['post', 'fav', 'fol', 'unfol']
 	start = time.time()
 	while time.time() - start < 3600 or counts['post'] != 1:
@@ -121,7 +121,7 @@ if __name__ == '__main__':
 				counts['unfol'] = maxes['unfol']
 
 		wait_time = random.poisson(1*5)
-		actor.send_log(method)
+		#actor.send_log(method)
 		print method
 		time.sleep(wait_time)
 
