@@ -6,16 +6,17 @@ from datetime import datetime
 from numpy import random
 
 class Actor(object):
-	def __init__(self,path="/home/ubuntu/auth.json"):
-			keys = json.loads(file(path).read())
+	def __init__(self,path='/home/ubuntu/'):
+			keys = json.loads(file(path + 'auth.json').read())
 
 			auth = twitter.OAuth(keys['OAUTH_TOKEN'], keys['OAUTH_TOKEN_SECRET'],
                             keys['APP_KEY'], keys['APP_SECRET'])
 
 			self.api = twitter.Twitter(auth=auth)
+			self.path = path
 
 	def unfollow(self, count = 1):
-		bad_friends = json.load(open('/home/ubuntu/bad_friends.json'))
+		bad_friends = json.load(open(self.path + 'data/bad_friends.json'))
 		for i in range(count):
 			if len(bad_friends) > 0:
 				usr_id = bad_friends.pop()
@@ -23,11 +24,11 @@ class Actor(object):
 				self.api.friendships.destroy(user_id = usr_id)
 		if len(bad_friends) == 0:
 			bad_friends = []
-		json.dump(bad_friends, open('/home/ubuntu/bad_friends.json','wb'))
+		json.dump(bad_friends, open(self.path + 'data/bad_friends.json','wb'))
 		return count     # no. api calls
 
 	def follow(self, favoritetwt = True, count = 1):
-		new_friends = json.load(open('/home/ubuntu/new_friends.json'))
+		new_friends = json.load(open(self.path + 'data/new_friends.json'))
 		for i in range(count):
 			if len(new_friends) > 0:
 				usr_id = new_friends.pop()
@@ -35,19 +36,19 @@ class Actor(object):
 				self.api.friendships.create(user_id = usr_id)
 				if favoritetwt:
 					status = self.api.statuses.user_timeline(user_id=usr_id, count = 1)[0]  # can be extended to favorite random twt
-					to_favorite = json.load(open('/home/ubuntu/to_favorite.json'))
+					to_favorite = json.load(open(self.path + 'data/to_favorite.json'))
 					print 'Added status: ' + str(status) + ' for future favorite.' 
-					json.dump(to_favorite.append(status['id']), open('/home/ubuntu/to_favorite.json', 'wb'))
+					json.dump(to_favorite.append(status['id']), open(self.path + 'data/to_favorite.json', 'wb'))
 		if len(new_friends) == 0:
 			new_friends = []
-		json.dump(new_friends, open('/home/ubuntu/new_friends.json','wb'))
+		json.dump(new_friends, open(self.path + 'data/new_friends.json','wb'))
 		calls = count 
 		if favoritetwt:
 			calls += count
 		return calls  # no. api calls
 
 	def favoritePost(self, count = 1):  # Error in api ?
-		to_favorite = json.load(open('/home/ubuntu/to_favorite.json'))
+		to_favorite = json.load(open(self.path + 'data/to_favorite.json'))
 		for i in range(count):
 			if len(to_favorite) > 0:
 				status_id = to_favorite.pop()
@@ -55,19 +56,28 @@ class Actor(object):
 				self.api.favorites.create(_id = status_id)
 		if len(to_favorite) == 0:
 			to_favorite = []
-		json.dump(to_favorite, open('/home/ubuntu/to_favorite.json', 'wb'))
+		json.dump(to_favorite, open(self.path + 'data/to_favorite.json', 'wb'))
 		return count # no. api calls
 
 	def postTwt(self):
-		twts = json.load(open('/home/ubuntu/to_tweet.json'))
+		twts = json.load(open(self.path + 'data/to_tweet.json'))
 		if len(twts) > 0:
 			twt = twts.pop()
 			print 'Posting twt: ' + twt
 			self.api.statuses.update(status = twt)
 		if len(twts) == 0:
 			twts = []
-		json.dump(twts, open('/home/ubuntu/to_tweet.json','wb'))
+		json.dump(twts, open(self.path + 'data/to_tweet.json','wb'))
 		return 1  # no. api calls
+
+	def retweet(self): #test method
+		retwts = json.load(open(self.path + 'data/retweets.json'))
+		if len(retwts) > 0:
+			twt = retwts.pop()
+			print 'Retweeting: ', twt
+			self.api.statuses.retweet(id=twt)
+		json.dump(retwts,open(self.path + 'data/retweets.json','wb'))
+		return 1
 
 	def send_log(self, method):
 		msg = "Running routine", datetime.now(), method
@@ -79,7 +89,7 @@ if __name__ == '__main__':
 	time.sleep(random.uniform(1,30))
 	actor = Actor()
 
-	counts = {'post':0, 'fav':0, 'fol':0, 'unfol':0} 
+	counts = {'post':0, 'fav':0, 'fol':0, 'unfol':0}
 	maxes = {'post':2, 'fav':10, 'fol':25, 'unfol':25}
 	methods = ['post', 'fav', 'fol', 'unfol']
 	start = time.time()
@@ -92,6 +102,7 @@ if __name__ == '__main__':
 		if method == 'post':
 			pass
 			#actor.postTwt()
+			actor.retweet()
 		elif method == 'fav':
 			pass
 			#actor.favoritePost()

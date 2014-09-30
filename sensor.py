@@ -6,20 +6,21 @@ from random import sample
 from time import sleep
 
 class Sensor(object):
-	def __init__(self,path="/home/ubuntu/auth.json"):
-		keys = json.loads(file(path).read())	
+	def __init__(self,path="/home/ubuntu/"):
+		keys = json.loads(file(path + 'auth.json').read())	
 		
 		auth = twitter.OAuth(keys['OAUTH_TOKEN'], keys['OAUTH_TOKEN_SECRET'],
 				keys['APP_KEY'], keys['APP_SECRET'])
 
 		self.api = twitter.Twitter(auth=auth)
+		self.path = path
 
 	def bad_friends(self):
 		# remove friends who do not follow back
 		friends = set(self.api.friends.ids()['ids'])
 		followers = set(self.api.followers.ids()['ids'])
 		bad_friends = list(friends - (friends.intersection(followers)))
-		f = open('../data/bad_friends.json','w')
+		f = open(self.path + 'data/bad_friends.json','w')
 		f.write(json.dumps(bad_friends))
 		f.close()
 
@@ -52,8 +53,6 @@ class Sensor(object):
 		if type(idx) == int and idx>=0:
 			pass
 
-
-
 	def new_friends(self):
 		new_friends = []
 		fol_ids = self.api.followers.ids()['ids']
@@ -63,12 +62,27 @@ class Sensor(object):
 		
 		new_friends = list(set(new_friends))
 		
-		with open('/home/ubuntu/data/new_friends.json','wb') as out:
+		with open(self.path + 'data/new_friends.json','wb') as out:
 			json.dump(new_friends,out)
-	
+
+	def new_top_retweet(self):
+		twts_in_TL = self.api.statuses.home_timeline()
+		twt_dic = {}
+		for twt in twts_in_TL:
+			twt_dic[twt['id']] = twt['retweet_count']
+		sort_dic = sorted(twt_dic.items(), key = lambda elm: elm[1])
+		print sort_dic
+		print sort_dic[-1]
+		print sort_dic[-1][0]
+		new_retweet = [sort_dic[-1][0]]
+
+		with open(self.path + 'data/retweets.json','wb') as out:
+			json.dump(new_retweet,out)
+
+		
 	def test(self):
 		msg = "cron job test sent at", datetime.now()
 		self.api.direct_messages.new(screen_name="hirihiker",text=msg)
 		
-s = Sensor()
-s.new_friends()
+s = Sensor(path = '../')
+#s.new_friends()
