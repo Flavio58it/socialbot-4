@@ -59,15 +59,18 @@ class Actor(object):
 		json.dump(to_favorite, open(self.path + 'data/to_favorite.json', 'wb'))
 		return count # no. api calls
 
-	def postTwt(self):
-		twts = json.load(open(self.path + 'data/to_tweet.json'))
+	def postTwt(self, lat = 57.718524, lon = 11.983428):
+		twts = [json.loads(line) for line in open(self.path + 'data/to_tweet.json')]
+		lat = lat + random.normal(0,0.02)
+		lon = lon + random.normal(0,0.02)
 		if len(twts) > 0:
 			twt = twts.pop()
-			print 'Posting twt: ' + twt
-			self.api.statuses.update(status = twt)
+			print 'Posting twt: ' + twt['text']
+			self.api.statuses.update(status = twt['text'], lat = lat, long=lon)
 		if len(twts) == 0:
-			twts = []
-		json.dump(twts, open(self.path + 'data/to_tweet.json','wb'))
+			open(self.path + 'data/to_tweet.json','wb').write('')
+		else:
+			json.dump(twts, open(self.path + 'data/to_tweet.json','wb'))
 		return 1  # no. api calls
 
 	def retweet(self): #test method
@@ -83,49 +86,44 @@ class Actor(object):
 		msg = "Running routine", datetime.now(), method
 		self.api.direct_messages.new(screen_name="SuperRexy",text=msg)
 
+	def write_log(self, method):
+		msg = "Running routine", datetime.now(), method, '\n'
+		open(self.path + 'data/hiri.log','a').write(msg)
+
 
 if __name__ == '__main__':
 	#initial wait:
 	#time.sleep(random.uniform(1,30))
 	actor = Actor()
 
-	counts = {'post':0, 'fav':0, 'fol':0, 'unfol':0}
-	maxes = {'post':1, 'fav':10, 'fol':25, 'unfol':25}
-	methods = ['post', 'fav', 'fol', 'unfol']
+	counts = {'post':0, 'retwt':0, 'fol':0, 'unfol':0}
+	maxes = {'post':1, 'retwt':1 , 'fol':25, 'unfol':25}
+	methods = ['post', 'retwt', 'fol', 'unfol']
 	start = time.time()
-
-	lat = 57.743013
-	lon = 11.988511
 
 	while time.time() - start < 3600 or counts['post'] != 1:
 		probs = [maxes[key] - counts[key] for key in methods]
 		probs = [1.0*elm/sum(probs) for elm in probs]
 		
-
 		method = random.choice(methods, size = 1, replace = False, p = probs)
 		if method == 'post':
-			pass
-			#actor.postTwt()
+			actor.postTwt()
+		elif method == 'retwt':
 			actor.retweet()
-		elif method == 'fav':
-			pass
 			#actor.favoritePost()
 			#counts['fav'] += 1
 			#if counts['fav'] > maxes['fav']:
 			#	counts['fav'] = maxes['fav']
 		elif method == 'fol':
 			actor.follow(favoritetwt = False)
-			counts['fol'] += 1
-			if counts['fol'] > maxes['fol']:
-				counts['fol'] = maxes['fol']
 		elif method == 'unfol':
 			actor.unfollow()
-			counts['unfol'] += 1
-			if counts['unfol'] > maxes['unfol']:
-				counts['unfol'] = maxes['unfol']
-
+		counts[method] += 1
+		if counts[method] > maxes[method]:
+			counts[method] = maxes[method]
+		
 		wait_time = random.poisson(1*60)
-		#actor.send_log(method)
+		actor.write_log(method)
 		print method
 		time.sleep(wait_time)
 
