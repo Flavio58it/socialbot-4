@@ -1,4 +1,4 @@
 import sensor
 
-s = sensor.Sensor(path ='../')
+s = sensor.Sensor()
 s.store_timeline_tweets()
