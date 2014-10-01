@@ -105,8 +105,7 @@ if __name__ == '__main__':
 		probs = [maxes[key] - counts[key] for key in methods]
 		probs = [1.0*elm/sum(probs) for elm in probs]
 		
-		method = random.choice(methods, size = 1, replace = False, p = probs)
-		print method
+		method = random.choice(methods, size = 1, replace = False, p = probs)[0]
 		if method == 'post':
 			actor.postTwt()
 		elif method == 'retwt':
