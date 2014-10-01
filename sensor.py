@@ -84,7 +84,7 @@ class Sensor(object):
 		if since_id is None:
 			timeline = self.api.statuses.home_timeline()
 		else: 
-			timeline = self.api.statuses.home_timeline(since_id=since_id)
+			timeline = self.api.statuses.home_timeline(since_id=since_id, count=200)
 
 		jsondics = []
 		for twt in timeline:
