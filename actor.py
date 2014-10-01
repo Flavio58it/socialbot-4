@@ -94,7 +94,8 @@ if __name__ == '__main__':
 	methods = ['post', 'fav', 'fol', 'unfol']
 	start = time.time()
 
-	# lat=57.743013, long = 11.988511
+	lat = 57.743013
+	lon = 11.988511
 
 	while time.time() - start < 3600 or counts['post'] != 1:
 		probs = [maxes[key] - counts[key] for key in methods]

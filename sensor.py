@@ -40,7 +40,7 @@ class Sensor(object):
 		
 		tweetables = []
 		for post in content:
-			if post.url.find('imgur') > 0 and post.num_comments > 0:
+			if ((post.url.find('imgur') > 0 or post.url[-4:] == '.jpg' or post.url[-4:] == '.gif' or post.url[-4:] == '.png') and (post.num_comments > 0)):
 				if len(post.comments[0].body + ' ' + post.url) <= 140:
 					tweetables.append(post.comments[0].body + ' ' + post.url)
 		
@@ -76,12 +76,26 @@ class Sensor(object):
 		with open(self.path + 'data/retweets.json','wb') as out:
 			json.dump(new_retweet,out)
 
-		
 	def test(self):
 		msg = "cron job test sent at", datetime.now()
 		self.api.direct_messages.new(screen_name="hirihiker",text=msg)
-		
-s = Sensor()
-s.new_friends()
-s.bad_friends()
-s.new_top_retweet()
+
+	def store_timeline_tweets(self, since_id = None):
+		if since_id is None:
+			timeline = self.api.statuses.home_timeline()
+		else: 
+			timeline = self.api.statuses.home_timeline(since_id=since_id)
+
+		jsondics = []
+		for twt in timeline:
+			hshlist = []
+			for hsh in twt['entities']['hashtags']:
+				hshlist.append(hsh['text'])
+			jsondics.append({"text":twt["text"], "coordinates":twt["coordinates"], "retweet_count":twt["retweet_count"], "id":twt["id"], "created_at":twt["created_at"], 'user_id':twt["user"]["id"], 'hashtags':hshlist})
+		fp = open(self.path + 'data/historical_timeline.json','a')
+		for twt in jsondics:
+			json.dump(twt, fp)
+			fp.write('\n')
+
+if __name__ == '__main__':
+	s = Sensor(path='../')
