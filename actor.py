@@ -88,7 +88,8 @@ class Actor(object):
 
 	def write_log(self, method):
 		msg = "Running routine", datetime.now(), method, '\n'
-		open(self.path + 'data/hiri.log','a').write(msg)
+		print msg
+		open(self.path + 'data/hiri.log','a').write(str(msg))
 
 
 if __name__ == '__main__':
