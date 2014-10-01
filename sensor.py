@@ -81,7 +81,7 @@ class Sensor(object):
 		msg = "cron job test sent at", datetime.now()
 		self.api.direct_messages.new(screen_name="hirihiker",text=msg)
 		
-s = Sensor(path = '../')
+s = Sensor()
 s.new_friends()
 s.bad_friends()
 s.new_top_retweet()

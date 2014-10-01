@@ -93,6 +93,9 @@ if __name__ == '__main__':
 	maxes = {'post':1, 'fav':10, 'fol':25, 'unfol':25}
 	methods = ['post', 'fav', 'fol', 'unfol']
 	start = time.time()
+
+	# lat=57.743013, long = 11.988511
+
 	while time.time() - start < 3600 or counts['post'] != 1:
 		probs = [maxes[key] - counts[key] for key in methods]
 		probs = [1.0*elm/sum(probs) for elm in probs]
