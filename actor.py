@@ -127,4 +127,10 @@ if __name__ == '__main__':
 		actor.write_log(method)
 		print method
 		time.sleep(wait_time)
+	if counts['retwt'] == 0:
+		actor.retweet()
+		time.sleep(1)
+	if counts['post'] == 0:
+		actor.postTwt()
+
 
