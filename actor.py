@@ -94,7 +94,7 @@ class Actor(object):
 
 if __name__ == '__main__':
 	#initial wait:
-	#time.sleep(random.uniform(1,30))
+	time.sleep(random.uniform(1,30))
 	actor = Actor()
 
 	counts = {'post':0, 'retwt':0, 'fol':0, 'unfol':0}
@@ -108,17 +108,29 @@ if __name__ == '__main__':
 		
 		method = random.choice(methods, size = 1, replace = False, p = probs)[0]
 		if method == 'post':
-			actor.postTwt()
+			try:
+				actor.postTwt()
+			except twitter.TwitterHTTPError, e: 
+				print 'Could not post tweet.'
 		elif method == 'retwt':
-			actor.retweet()
+			try:
+				actor.retweet()
+			except twitter.TwitterHTTPError, e: 
+				print 'Could not retweet'.
 			#actor.favoritePost()
 			#counts['fav'] += 1
 			#if counts['fav'] > maxes['fav']:
 			#	counts['fav'] = maxes['fav']
 		elif method == 'fol':
-			actor.follow(favoritetwt = False)
+			try:
+				actor.follow(favoritetwt = False)
+			except twitter.TwitterHTTPError, e: 
+				print 'TwitterHTTPError: Following failed!'
 		elif method == 'unfol':
-			actor.unfollow()
+			try:
+				actor.unfollow()
+			except twitter.TwitterHTTPError, e: 
+				print 'TwitterHTTPError: Following failed!'
 		counts[method] += 1
 		if counts[method] > maxes[method]:
 			counts[method] = maxes[method]
