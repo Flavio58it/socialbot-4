@@ -73,7 +73,7 @@ class Sensor(object):
 		tweetables = []
 		for post in content:
 			if ((post.url.find('imgur') > 0 or post.url[-4:] == '.jpg' or post.url[-4:] == '.gif' or post.url[-4:] == '.png') and (post.num_comments > 0)):
-				if len(post.comments[0].body + ' ' + post.url) <= 129:
+				if len(post.title + ' ' + post.url) <= 139:
 					if sum(map(lambda elm: post.title.lower().find(elm) + 1, bad_words)) == 0:
 						tweet = self._get_tweet(r, post)
 						tweetables.append((tweet + ' ' + post.url, post.ups - post.downs))
@@ -132,3 +132,4 @@ class Sensor(object):
 
 if __name__ == '__main__':
 	s = Sensor(path='../')
+	s.postsFromReddit('frugal', 20)

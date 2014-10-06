@@ -67,10 +67,12 @@ class Actor(object):
 			twt = twts.pop()
 			print 'Posting twt: ' + twt['text']
 			self.api.statuses.update(status = twt['text'], lat = lat, long=lon)
-		if len(twts) == 0:
-			open(self.path + 'data/to_tweet.json','wb').write('')
-		else:
-			json.dump(twts, open(self.path + 'data/to_tweet.json','wb'))
+		
+		fp = open(self.path + 'data/to_tweet.json','wb')
+		for twt in twts:
+			fp.write(twt)
+			fp.write('\n')	
+		fp.close()
 		return 1  # no. api calls
 
 	def retweet(self): #test method
@@ -116,7 +118,7 @@ if __name__ == '__main__':
 			try:
 				actor.retweet()
 			except twitter.TwitterHTTPError, e: 
-				print 'Could not retweet'.
+				print 'Could not retweet'
 			#actor.favoritePost()
 			#counts['fav'] += 1
 			#if counts['fav'] > maxes['fav']:
