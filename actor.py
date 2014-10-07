@@ -37,7 +37,7 @@ class Actor(object):
 				if favoritetwt:
 					status = self.api.statuses.user_timeline(user_id=usr_id, count = 1)[0]  # can be extended to favorite random twt
 					to_favorite = json.load(open(self.path + 'data/to_favorite.json'))
-					print 'Added status: ' + str(status) + ' for future favorite.' 
+					#print 'Added status: ' + str(status) + ' for future favorite.' 
 					json.dump(to_favorite.append(status['id']), open(self.path + 'data/to_favorite.json', 'wb'))
 		if len(new_friends) == 0:
 			new_friends = []
@@ -65,7 +65,7 @@ class Actor(object):
 		lon = lon + random.normal(0,0.02)
 		if len(twts) > 0:
 			twt = twts.pop()
-			print 'Posting twt: ' + twt['text']
+			#print 'Posting twt: ' + twt['text']
 			self.api.statuses.update(status = twt['text'], lat = lat, long=lon)
 		
 		fp = open(self.path + 'data/to_tweet.json','wb')
