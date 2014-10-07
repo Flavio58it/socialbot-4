@@ -70,7 +70,7 @@ class Actor(object):
 		
 		fp = open(self.path + 'data/to_tweet.json','wb')
 		for twt in twts:
-			fp.write(twt)
+			json.dump(twt,fp)
 			fp.write('\n')	
 		fp.close()
 		return 1  # no. api calls
