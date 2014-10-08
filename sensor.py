@@ -59,7 +59,7 @@ class Sensor(object):
 		if type(subreddits) != list:
 			subreddits = [subreddits]
 		bad_words = ['karma', 'r/', 'reddit', 'sub', 'x-post', '[', 'nsfw']
-
+		bad_subs = ['sweden', 'swarje']
 		r = praw.Reddit(user_agent='hirihiker')
 		
 		content = []
@@ -72,15 +72,21 @@ class Sensor(object):
 		
 		tweetables = []
 		for post in content:
-			if ((post.url.find('imgur') > 0 or post.url[-4:] == '.jpg' or post.url[-4:] == '.gif' or post.url[-4:] == '.png') and (post.num_comments > 0)):
+			if ((post.url[-4:] == '.jpg' or post.url[-4:] == '.gif' or post.url[-4:] == '.png') and (post.num_comments > 0)): #post.url.find('imgur') > 0 or
 				if len(post.title + ' ' + post.url) <= 139:
 					if sum(map(lambda elm: post.title.lower().find(elm) + 1, bad_words)) == 0:
-						tweet = self._get_tweet(r, post)
-						tweetables.append((tweet + ' ' + post.url, post.ups - post.downs))
+						if sub not in bad_subs:
+							post = post + ' #' + sub
+						else:
+							post = post + ' #svpol'
+						tweetables.append([tweet, post.url, post.ups - post.downs])
 		if len(tweetables) > 0:
-			tweetables = sorted(tweetables, key=lambda twt: twt[1])
+			tweetables = sorted(tweetables, key=lambda twt: twt[2])
+			twt = tweetables[-1]
 			fp = open(self.path + 'data/to_tweet.json','a')
-			json.dump({'text':tweetables[-1][0]}, fp)
+			if twt[1].find('imgur') > 0 and twt[1].find('.jpg') < 0:
+				twt[1] = twt[1] + '.jpg' 
+			json.dump({'text':twt[0], 'media_url': twt[1]}, fp)
 			fp.write('\n')
 			return True
 		else:
@@ -89,7 +95,7 @@ class Sensor(object):
 	def new_friends(self):
 		new_friends = []
 		fol_ids = self.api.followers.ids()['ids']
-		selected_followers = sample(fol_ids,1)
+		selected_followers = sample(fol_ids,10)
 		for fol_id in selected_followers:
 			new_friends += self.api.followers.ids(user_id=fol_id)['ids']
 		
@@ -132,4 +138,4 @@ class Sensor(object):
 
 if __name__ == '__main__':
 	s = Sensor(path='../')
-	s.postsFromReddit('frugal', 20)
+	s.postsFromReddit('dota2', 20)

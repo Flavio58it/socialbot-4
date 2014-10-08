@@ -4,6 +4,7 @@ import json
 import time
 from datetime import datetime
 from numpy import random
+import urllib
 
 class Actor(object):
 	def __init__(self,path='/home/ubuntu/'):
@@ -66,7 +67,12 @@ class Actor(object):
 		if len(twts) > 0:
 			twt = twts.pop()
 			#print 'Posting twt: ' + twt['text']
-			self.api.statuses.update(status = twt['text'], lat = lat, long=lon)
+			if 'media_url' in twt:
+				img = urllib.urlopen(twt['media_url']).read()
+				params = {'status':twt['text'], 'media[]':img, 'lat':str(lat), 'long':str(lon)}
+				self.api.statuses.update_with_media(**params)
+			else:
+				self.api.statuses.update(status = twt['text'], lat = lat, long=lon)
 		
 		fp = open(self.path + 'data/to_tweet.json','wb')
 		for twt in twts:
