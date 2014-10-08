@@ -15,6 +15,7 @@ class Actor(object):
 
 			self.api = twitter.Twitter(auth=auth)
 			self.path = path
+			self.format = '%Y-%d-%m %H-%M-%S'
 
 	def unfollow(self, count = 1):
 		bad_friends = json.load(open(self.path + 'data/bad_friends.json'))
@@ -23,6 +24,9 @@ class Actor(object):
 				usr_id = bad_friends.pop()
 				print 'Destroying friendship: ' + str(usr_id)
 				self.api.friendships.destroy(user_id = usr_id)
+				fp = open(path + 'data/hiriactivity.log', 'a')
+				fp.write(datetime.strftime(datetime.now(), self.format) + ' unfol ' + usr_id + '\n')
+				fp.close()
 		if len(bad_friends) == 0:
 			bad_friends = []
 		json.dump(bad_friends, open(self.path + 'data/bad_friends.json','wb'))
@@ -39,6 +43,9 @@ class Actor(object):
 					status = self.api.statuses.user_timeline(user_id=usr_id, count = 1)[0]  # can be extended to favorite random twt
 					to_favorite = json.load(open(self.path + 'data/to_favorite.json'))
 					#print 'Added status: ' + str(status) + ' for future favorite.' 
+					fp = open(path + 'data/hiriactivity.log', 'a')
+					fp.write(datetime.strftime(datetime.now(), self.format) + ' fol ' + usr_id + '\n')
+					fp.close()
 					json.dump(to_favorite.append(status['id']), open(self.path + 'data/to_favorite.json', 'wb'))
 		if len(new_friends) == 0:
 			new_friends = []
@@ -106,11 +113,11 @@ if __name__ == '__main__':
 	actor = Actor()
 
 	counts = {'post':0, 'retwt':0, 'fol':0, 'unfol':0}
-	maxes = {'post':1, 'retwt':1 , 'fol':25, 'unfol':25}
+	maxes = {'post':1, 'retwt':1 , 'fol':50, 'unfol':50}
 	methods = ['post', 'retwt', 'fol', 'unfol']
 	start = time.time()
 
-	while time.time() - start < 3600:
+	while time.time() - start < 2*3600:
 		probs = [maxes[key] - counts[key] for key in methods]
 		probs = [1.0*elm/sum(probs) for elm in probs]
 		

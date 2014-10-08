@@ -23,7 +23,7 @@ class Sensor(object):
 		followers = set(self.api.followers.ids()['ids'])
 		followers = followers.union(self.whitelist)
 		bad_friends = list(friends - (friends.intersection(followers)))
-		f = open(self.path + 'data/bad_friends.json','w')
+		f = open(self.path + 'data/bad_friends.json','wb')
 		f.write(json.dumps(bad_friends))
 		f.close()
 	
