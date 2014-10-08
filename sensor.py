@@ -76,9 +76,9 @@ class Sensor(object):
 				if len(post.title + ' ' + post.url) <= 139:
 					if sum(map(lambda elm: post.title.lower().find(elm) + 1, bad_words)) == 0:
 						if sub not in bad_subs:
-							post = post + ' #' + sub
+							tweet = post.title + ' #' + sub
 						else:
-							post = post + ' #svpol'
+							tweet = post.title + ' #svpol'	
 						tweetables.append([tweet, post.url, post.ups - post.downs])
 		if len(tweetables) > 0:
 			tweetables = sorted(tweetables, key=lambda twt: twt[2])
