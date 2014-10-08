@@ -57,7 +57,7 @@ class Actor(object):
 
 	def favoritePost(self, count = 1):  # Error in api ?
 		#to_favorite = json.load(open(self.path + 'data/to_favorite.json'))
-		to_favorite = [json.loads(line) for line in open(self.path + 'data/to_favorite.json')]
+		to_favorite = [json.loads(line) for line in open(self.path + 'data/to_favorite.json') if line != '\n']
 		for i in range(min(count, len(to_favorite))):
 			fav_twt = to_favorite.pop()
 			print 'Favoriting status: ' + str(fav_twt['id'])
@@ -74,7 +74,7 @@ class Actor(object):
 		return count # no. api calls
 
 	def postTwt(self, lat = 57.718524, lon = 11.983428):
-		twts = [json.loads(line) for line in open(self.path + 'data/to_tweet.json')]
+		twts = [json.loads(line) for line in open(self.path + 'data/to_tweet.json') if line != '\n']
 		lat = lat + random.normal(0,0.02)
 		lon = lon + random.normal(0,0.02)
 		if len(twts) > 0:
