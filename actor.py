@@ -25,7 +25,7 @@ class Actor(object):
 				print 'Destroying friendship: ' + str(usr_id)
 				self.api.friendships.destroy(user_id = usr_id)
 				fp = open(self.path + 'data/hiriactivity.log', 'a')
-				fp.write(datetime.strftime(datetime.now(), self.format) + ' unfol ' + usr_id + '\n')
+				fp.write(datetime.strftime(datetime.now(), self.format) + ' unfol ' + str(usr_id) + '\n')
 				fp.close()
 		if len(bad_friends) == 0:
 			bad_friends = []
@@ -44,7 +44,7 @@ class Actor(object):
 					to_favorite = json.load(open(self.path + 'data/to_favorite.json'))
 					#print 'Added status: ' + str(status) + ' for future favorite.' 
 					fp = open(self.path + 'data/hiriactivity.log', 'a')
-					fp.write(datetime.strftime(datetime.now(), self.format) + ' fol ' + usr_id + '\n')
+					fp.write(datetime.strftime(datetime.now(), self.format) + ' fol ' + str(usr_id) + '\n')
 					fp.close()
 					json.dump(to_favorite.append(status['id']), open(self.path + 'data/to_favorite.json', 'wb'))
 		if len(new_friends) == 0:
