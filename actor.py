@@ -39,14 +39,14 @@ class Actor(object):
 				usr_id = new_friends.pop()
 				print 'Created friendship: ' + str(usr_id)
 				self.api.friendships.create(user_id = usr_id)
+				fp = open(self.path + 'data/hiriactivity.log', 'a')
+				fp.write(datetime.strftime(datetime.now(), self.format) + ' fol ' + str(usr_id) + '\n')
+				fp.close()
 				if favoritetwt:
 					status = self.api.statuses.user_timeline(user_id=usr_id, count = 1)[0]  # can be extended to favorite random twt
-					to_favorite = json.load(open(self.path + 'data/to_favorite.json'))
-					#print 'Added status: ' + str(status) + ' for future favorite.' 
-					fp = open(self.path + 'data/hiriactivity.log', 'a')
-					fp.write(datetime.strftime(datetime.now(), self.format) + ' fol ' + str(usr_id) + '\n')
-					fp.close()
-					json.dump(to_favorite.append(status['id']), open(self.path + 'data/to_favorite.json', 'wb'))
+					fav_fp = open(self.path + 'data/to_favorite.json', 'a')
+					json.dump({'id':status['id'], 'usr_id':usr_id},fav_fp)
+					fav_fp.write('\n')
 		if len(new_friends) == 0:
 			new_friends = []
 		json.dump(new_friends, open(self.path + 'data/new_friends.json','wb'))
@@ -56,15 +56,21 @@ class Actor(object):
 		return calls  # no. api calls
 
 	def favoritePost(self, count = 1):  # Error in api ?
-		to_favorite = json.load(open(self.path + 'data/to_favorite.json'))
-		for i in range(count):
-			if len(to_favorite) > 0:
-				status_id = to_favorite.pop()
-				print 'Favoriting status: ' + str(status_id)
-				self.api.favorites.create(_id = status_id)
+		#to_favorite = json.load(open(self.path + 'data/to_favorite.json'))
+		to_favorite = [json.loads(line) for line in open(self.path + 'data/to_favorite.json')]
+		for i in range(min(count, len(to_favorite))):
+			fav_twt = to_favorite.pop()
+			print 'Favoriting status: ' + str(fav_twt['id'])
+			self.api.favorites.create(_id = fav_twt['id'])
+			fp = open(self.path + 'data/hiriactivity.log', 'a')
+			fp.write(datetime.strftime(datetime.now(), self.format) + ' fav ' + str(fav_twt['usr_id']) + '\n')
+			fp.close()
 		if len(to_favorite) == 0:
 			to_favorite = []
-		json.dump(to_favorite, open(self.path + 'data/to_favorite.json', 'wb'))
+		fp = open(self.path + 'data/to_favorite.json', 'wb')
+		for fav in to_favorite:
+			json.dump(fav,fp)
+			fp.write('\n')
 		return count # no. api calls
 
 	def postTwt(self, lat = 57.718524, lon = 11.983428):

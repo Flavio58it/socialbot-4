@@ -7,8 +7,8 @@ from actor import *
 time.sleep(random.uniform(1,30))
 actor = Actor()
 
-counts = {'post':0, 'retwt':0, 'fol':0, 'unfol':0}
-maxes = {'post':1, 'retwt':1 , 'fol':50, 'unfol':50}
+counts = {'post':0, 'retwt':0, 'fol':0, 'unfol':0, 'fav':0}
+maxes = {'post':1, 'retwt':1 , 'fol':50, 'unfol':50, 'fav':15}
 methods = ['post', 'retwt', 'fol', 'unfol']
 start = time.time()
 
@@ -33,7 +33,7 @@ while time.time() - start < 2*3600:
 		#	counts['fav'] = maxes['fav']
 	elif method == 'fol':
 		try:
-			actor.follow(favoritetwt = False)
+			actor.follow()
 		except twitter.TwitterHTTPError, e: 
 			print 'TwitterHTTPError: Following failed!'
 	elif method == 'unfol':
@@ -41,6 +41,11 @@ while time.time() - start < 2*3600:
 			actor.unfollow()
 		except twitter.TwitterHTTPError, e: 
 			print 'TwitterHTTPError: Following failed!'
+	elif method == 'fav':
+		try:
+			actor.favoritePost()
+		except twitter.TwitterHTTPError, e: 
+			print 'TwitterHTTPError: Favoriting failed!'
 	counts[method] += 1
 	if counts[method] > maxes[method]:
 		counts[method] = maxes[method]
