@@ -33,7 +33,7 @@ while time.time() - start < 2*3600:
 		#	counts['fav'] = maxes['fav']
 	elif method == 'fol':
 		try:
-			actor.follow()
+			actor.follow(favoritetwt=False)
 		except twitter.TwitterHTTPError, e: 
 			print 'TwitterHTTPError: Following failed!'
 	elif method == 'unfol':
