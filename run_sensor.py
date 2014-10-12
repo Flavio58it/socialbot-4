@@ -1,9 +1,9 @@
 from sensor import *
 import random
 
-s = Sensor(path='../')
+#s = Sensor(path='../')
 
-#s = Sensor()
+s = Sensor()
 hashtags = ['minecraft', 'dota2', 'leagueoflegends', 'gaming', 'gaymer', 'gamergate', 'vagante', 'indiegames', 'cosplay']
 random.shuffle(hashtags)
 s.new_friends(hashtags = hashtags[:3])
