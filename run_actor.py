@@ -8,11 +8,11 @@ time.sleep(random.uniform(1,30))
 actor = Actor()
 
 counts = {'post':0, 'retwt':0, 'fol':0, 'unfol':0, 'fav':0}
-maxes = {'post':1, 'retwt':1 , 'fol':50, 'unfol':50, 'fav':15}
+maxes = {'post':1, 'retwt':0 , 'fol':75, 'unfol':25, 'fav':3}
 methods = ['post', 'retwt', 'fol', 'unfol']
 start = time.time()
 
-while time.time() - start < 2*3600:
+while time.time() - start < 2*3600 and sum(maxes.values())-sum(counts.values()) > 0:
 	probs = [maxes[key] - counts[key] for key in methods]
 	probs = [1.0*elm/sum(probs) for elm in probs]
 	

@@ -73,7 +73,8 @@ class Actor(object):
 			fp.write('\n')
 		return count # no. api calls
 
-	def postTwt(self, lat = 57.718524, lon = 11.983428):
+	#37.783333, -122.416667
+	def postTwt(self, lat = 37.783333, lon = -122.416667):
 		twts = [json.loads(line) for line in open(self.path + 'data/to_tweet.json') if line != '\n']
 		lat = lat + random.normal(0,0.02)
 		lon = lon + random.normal(0,0.02)

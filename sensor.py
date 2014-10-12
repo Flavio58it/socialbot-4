@@ -5,6 +5,7 @@ import nltk
 from datetime import datetime
 from random import sample
 from time import sleep
+import random
 
 class Sensor(object):
 	def __init__(self,path="/home/ubuntu/"):
@@ -92,28 +93,39 @@ class Sensor(object):
 		else:
 			return False
 
-	def new_friends(self):
+	def new_friends(self, hashtags=[], lat = 37.783333, lon = -122.416667):
 		new_friends = []
 		fol_ids = self.api.followers.ids()['ids']
-		selected_followers = sample(fol_ids,10)
+		selected_followers = sample(fol_ids,2)
 		for fol_id in selected_followers:
 			new_friends += self.api.followers.ids(user_id=fol_id)['ids']
 		
 		new_friends = list(set(new_friends))
+
+		if len(hashtags) > 0:
+			for hsh in hashtags:
+				res = self.api.search.tweets(q=hsh, lat = lat, long=lon)
+				new_friends.extend([twt['user']['id'] for twt in res['statuses']])
+		random.shuffle(new_friends)
 		
 		with open(self.path + 'data/new_friends.json','wb') as out:
 			json.dump(new_friends,out)
 
-	def new_top_retweet(self):
+	def new_top_retweet(self, hashtags = [], ub_criteria = 100, lat = 37.783333, lon = -122.416667, count = 1):
 		twts_in_TL = self.api.statuses.home_timeline()
+		for hsh in hashtags:
+			res = self.api.search.tweets(q=hsh, lat = lat, long=lon)
+			twts_in_TL.extend(res['statuses'])
+
 		twt_dic = {}
 		for twt in twts_in_TL:
-			twt_dic[twt['id']] = twt['retweet_count']
+			if twt['retweet_count'] < ub_criteria:
+				twt_dic[twt['id']] = twt['retweet_count']
 		sort_dic = sorted(twt_dic.items(), key = lambda elm: elm[1])
-		new_retweet = [sort_dic[-1][0]]
+		new_retweets = [sort_dic[-1][:count]]
 
 		with open(self.path + 'data/retweets.json','wb') as out:
-			json.dump(new_retweet,out)
+			json.dump(new_retweets,out)
 
 	def test(self):
 		msg = "cron job test sent at", datetime.now()
