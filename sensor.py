@@ -56,7 +56,7 @@ class Sensor(object):
 			return twt
 		return post.title
 
-	def postsFromReddit(self, subreddits, limit):
+	def postsFromReddit(self, subreddits, limit, get_hot = False):
 		if type(subreddits) != list:
 			subreddits = [subreddits]
 		bad_words = ['karma', 'r/', 'reddit', 'sub', 'x-post', '[', 'nsfw']
@@ -66,8 +66,11 @@ class Sensor(object):
 		content = []
 		
 		for sub in subreddits:
-			posts = r.get_subreddit(sub).get_hot(limit = limit)
-		
+			if get_hot:
+				posts = r.get_subreddit(sub).get_hot(limit = limit)
+			else:
+				posts = r.get_subreddit(sub).get_new(limit = limit)	
+			
 			for post in posts:
 				content.append(post)
 		
