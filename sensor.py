@@ -96,7 +96,9 @@ class Sensor(object):
 		else:
 			return False
 
-	def new_friends(self, hashtags=[], lat = 37.783333, lon = -122.416667):
+	def new_friends(self, hashtags=None, lat = 37.783333, lon = -122.416667):
+		if hashtags is None:
+			hashtags = []
 		new_friends = []
 		fol_ids = self.api.followers.ids()['ids']
 		selected_followers = sample(fol_ids,2)
@@ -114,7 +116,10 @@ class Sensor(object):
 		with open(self.path + 'data/new_friends.json','wb') as out:
 			json.dump(new_friends,out)
 
-	def new_top_retweet(self, hashtags = [], ub_criteria = 100, lat = 37.783333, lon = -122.416667, count = 1):
+	def new_top_retweet(self, hashtags = None, ub_criteria = 100, lat = 37.783333, lon = -122.416667, count = 1):
+		if hashtags is None:
+			hashtags = []
+
 		twts_in_TL = self.api.statuses.home_timeline()
 		for hsh in hashtags:
 			res = self.api.search.tweets(q=hsh, lat = lat, long=lon)
