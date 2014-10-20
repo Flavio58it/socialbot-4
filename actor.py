@@ -79,6 +79,11 @@ class Actor(object):
 		lon = lon + random.normal(0,0.02)
 		if len(twts) > 0:
 			twt = twts.pop()
+			fp = open(self.path + 'data/to_tweet.json','wb')
+			for twt in twts:
+				json.dump(twt,fp)
+				fp.write('\n')	
+			fp.close()
 			#print 'Posting twt: ' + twt['text']
 			if 'media_url' in twt:
 				img = urllib.urlopen(twt['media_url']).read()
@@ -86,12 +91,6 @@ class Actor(object):
 				self.api.statuses.update_with_media(**params)
 			else:
 				self.api.statuses.update(status = twt['text'], lat = lat, long=lon)
-		
-		fp = open(self.path + 'data/to_tweet.json','wb')
-		for twt in twts:
-			json.dump(twt,fp)
-			fp.write('\n')	
-		fp.close()
 		return 1  # no. api calls
 
 	def retweet(self): #test method
