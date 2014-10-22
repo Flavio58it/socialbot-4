@@ -37,10 +37,16 @@ class Actor(object):
 		for i in range(count):
 			if len(new_friends) > 0:
 				usr_id = new_friends.pop()
-				print 'Created friendship: ' + str(usr_id)
 				self.api.friendships.create(user_id = usr_id)
+				print 'Created friendship: ' + str(usr_id)
+
 				fp = open(self.path + 'data/hiriactivity.log', 'a')
 				fp.write(datetime.strftime(datetime.now(), self.format) + ' fol ' + str(usr_id) + '\n')
+				fp.close()
+				
+				fp = open(self.path + 'tried_to_follow.json', 'a')
+				res = self.api.users.lookup(user_id = usr_id)
+				fp.write(res[0])
 				fp.close()
 				if favoritetwt:
 					status = self.api.statuses.user_timeline(user_id=usr_id, count = 1)[0]  # can be extended to favorite random twt

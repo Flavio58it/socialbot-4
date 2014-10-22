@@ -116,6 +116,10 @@ class Sensor(object):
 		with open(self.path + 'data/new_friends.json','wb') as out:
 			json.dump(new_friends,out)
 
+	def new_friend_by_users(self, u_name_1, u_name_2):
+		'''Find union of followers of two DTU bots and add them to follow list.'''
+		pass
+
 	def new_top_retweet(self, hashtags = None, ub_criteria = 100, lat = 37.783333, lon = -122.416667, count = 1):
 		if hashtags is None:
 			hashtags = []
