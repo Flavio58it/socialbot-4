@@ -44,9 +44,9 @@ class Actor(object):
 				fp.write(datetime.strftime(datetime.now(), self.format) + ' fol ' + str(usr_id) + '\n')
 				fp.close()
 				
-				fp = open(self.path + 'tried_to_follow.json', 'a')
+				fp = open(self.path + 'data/tried_to_follow.json', 'a')
 				res = self.api.users.lookup(user_id = usr_id)
-				fp.write(json.dumps(res[0]))
+				fp.write(json.dumps(res[0]) + '\n')
 				fp.close()
 				if favoritetwt:
 					status = self.api.statuses.user_timeline(user_id=usr_id, count = 1)[0]  # can be extended to favorite random twt
