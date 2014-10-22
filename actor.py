@@ -46,7 +46,7 @@ class Actor(object):
 				
 				fp = open(self.path + 'tried_to_follow.json', 'a')
 				res = self.api.users.lookup(user_id = usr_id)
-				fp.write(res[0])
+				fp.write(json.dumps(res[0]))
 				fp.close()
 				if favoritetwt:
 					status = self.api.statuses.user_timeline(user_id=usr_id, count = 1)[0]  # can be extended to favorite random twt
