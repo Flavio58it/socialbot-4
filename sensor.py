@@ -96,12 +96,12 @@ class Sensor(object):
 		else:
 			return False
 
-	def new_friends(self, hashtags=None, lat = 37.783333, lon = -122.416667):
+	def new_friends(self, hashtags=None, lat = 37.783333, lon = -122.416667, fol_count = 0):
 		if hashtags is None:
 			hashtags = []
 		new_friends = []
 		fol_ids = self.api.followers.ids()['ids']
-		selected_followers = sample(fol_ids,2)
+		selected_followers = sample(fol_ids, fol_count)
 		for fol_id in selected_followers:
 			new_friends += self.api.followers.ids(user_id=fol_id)['ids']
 		
