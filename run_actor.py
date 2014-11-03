@@ -8,7 +8,7 @@ time.sleep(random.uniform(1,30))
 actor = Actor()
 
 counts = {'post':0, 'retwt':0, 'fol':0, 'unfol':0, 'fav':0}
-maxes = {'post':1, 'retwt':1 , 'fol':60, 'unfol':40, 'fav':6}
+maxes = {'post':1, 'retwt':1 , 'fol':40, 'unfol':30, 'fav':6}
 methods = ['post', 'retwt', 'fol', 'unfol']
 start = time.time()
 
