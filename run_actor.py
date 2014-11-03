@@ -4,7 +4,7 @@ import random
 from actor import *
 
 #initial wait:
-time.sleep(random.uniform(1,30))
+time.sleep(random.uniform(1,30*60))
 actor = Actor()
 
 counts = {'post':0, 'retwt':0, 'fol':0, 'unfol':0, 'fav':0}
