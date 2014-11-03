@@ -2,6 +2,7 @@ import time
 import twitter
 import random
 from actor import *
+import numpy as np
 
 #initial wait:
 time.sleep(random.uniform(1,30*60))
@@ -50,11 +51,11 @@ while time.time() - start < 2*3600 and sum(maxes.values())-sum(counts.values()) 
 	if counts[method] > maxes[method]:
 		counts[method] = maxes[method]
 	
-	wait_time = random.poisson(1*60)
+	wait_time = np.random.exponential(1*60)
 	print method
 	time.sleep(wait_time)
 if counts['retwt'] == 0:
-	actor.retweet()
+	actor.retweet()ra
 	time.sleep(1)
 if counts['post'] == 0:
 	actor.postTwt()
