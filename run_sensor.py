@@ -1,23 +1,28 @@
 from sensor import *
 import random
+import sys
 
-#s = Sensor(path='../')
+if len(sys.argv) > 1 and sys.argv[1] == '-p':
+	s = Sensor(path='../')
+else:
+	s = Sensor()
 
-s = Sensor()
 hashtags = ['minecraft', 'dota2', 'leagueoflegends', 'gaming', 'gaymer', 'gamergate', 'vagante', 'indiegames', 'cosplay']
-random.shuffle(hashtags)
-s.new_friends(hashtags = hashtags[:3])
+sf_hashtags = ['sfnative', 'sanfrancisco', 'sfcity', 'sf', 'sfgiants', 'onlyinsf', 'sflocal']
+random.shuffle(sf_hashtags)
+s.new_friends(hashtags = sf_hashtags[:4], fol_count = 1)
 s.bad_friends()
-s.new_top_retweet(hashtags = hashtags, count = 3)
-#'sweden', 'swarje',
-subreddits = ['minecraft', 'dota2', 'leagueoflegends', 'gaming']
+s.new_top_retweet(hashtags = sf_hashtags, count = 1)
 
-random.shuffle(subreddits)
-subreddit = subreddits.pop()
+subreddits = ['minecraft', 'dota2', 'leagueoflegends', 'gaming']
+sf_subs = ['sanfrancisco', 'food']
+
+random.shuffle(sf_subs)
+subreddit = sf_subs.pop()
 print subreddit
-while not s.postsFromReddit(subreddit, limit = 10):
+while not s.postsFromReddit(subreddit, limit = 10) or not s.postsFromReddit(subreddit, limit = 10, get_hot = True):
 	print subreddit
 	try:
-		subreddit = subreddits.pop()
+		subreddit = sf_subs.pop()
 	except IndexError:
 		break

@@ -2,13 +2,26 @@ import time
 import twitter
 import random
 from actor import *
+import numpy as np
+import sys
+
+initial_wait = True
+if len(sys.argv) > 0 and sys.argv[1] == '-v':
+	initial_wait = False
+	actor = Actor(path = '../')
+else:
+	actor = Actor()
 
 #initial wait:
-time.sleep(random.uniform(1,30*60))
-actor = Actor()
+if initial_wait:
+	time.sleep(random.uniform(1,30*60))
+
+
 
 counts = {'post':0, 'retwt':0, 'fol':0, 'unfol':0, 'fav':0}
-maxes = {'post':1, 'retwt':1 , 'fol':40, 'unfol':30, 'fav':6}
+
+maxes = {'post':1, 'retwt':1 , 'fol':55, 'unfol':30, 'fav':6}
+
 methods = ['post', 'retwt', 'fol', 'unfol']
 start = time.time()
 
@@ -50,7 +63,7 @@ while time.time() - start < 2*3600 and sum(maxes.values())-sum(counts.values()) 
 	if counts[method] > maxes[method]:
 		counts[method] = maxes[method]
 	
-	wait_time = random.poisson(1*60)
+	wait_time = np.random.exponential(1*60)
 	print method
 	time.sleep(wait_time)
 if counts['retwt'] == 0:
