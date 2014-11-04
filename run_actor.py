@@ -3,13 +3,23 @@ import twitter
 import random
 from actor import *
 import numpy as np
+import sys
+
+initial_wait = True
+if len(sys.argv) > 0 and sys.argv[1] == '-v':
+	initial_wait = False
+	actor = Actor(path = '../')
+else:
+	actor = Actor()
 
 #initial wait:
-time.sleep(random.uniform(1,30*60))
-actor = Actor()
+if initial_wait:
+	time.sleep(random.uniform(1,30*60))
+
+
 
 counts = {'post':0, 'retwt':0, 'fol':0, 'unfol':0, 'fav':0}
-maxes = {'post':1, 'retwt':1 , 'fol':60, 'unfol':40, 'fav':6}
+maxes = {'post':1, 'retwt':1 , 'fol':1, 'unfol':1, 'fav':1}
 methods = ['post', 'retwt', 'fol', 'unfol']
 start = time.time()
 
@@ -55,7 +65,7 @@ while time.time() - start < 2*3600 and sum(maxes.values())-sum(counts.values()) 
 	print method
 	time.sleep(wait_time)
 if counts['retwt'] == 0:
-	actor.retweet()ra
+	actor.retweet()
 	time.sleep(1)
 if counts['post'] == 0:
 	actor.postTwt()

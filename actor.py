@@ -34,6 +34,8 @@ class Actor(object):
 
 	def follow(self, favoritetwt = True, count = 1):
 		new_friends = json.load(open(self.path + 'data/new_friends.json'))
+		our_fols = set(self.api.followers.ids()['ids'])
+
 		for i in range(count):
 			if len(new_friends) > 0:
 				usr_id = new_friends.pop()
@@ -46,6 +48,9 @@ class Actor(object):
 				
 				fp = open(self.path + 'data/tried_to_follow.json', 'a')
 				res = self.api.users.lookup(user_id = usr_id)
+				their_fols = set(self.api.friends.ids(user_id = usr_id)['ids'])
+				common_fols = our_fols.intersection(their_fols)
+				res[0]['common_fols'] = list(common_fols)
 				fp.write(json.dumps(res[0]) + '\n')
 				fp.close()
 				if favoritetwt:
