@@ -6,7 +6,7 @@ import numpy as np
 import sys
 
 initial_wait = True
-if len(sys.argv) > 0 and sys.argv[1] == '-v':
+if len(sys.argv) > 1 and sys.argv[1] == '-v':
 	initial_wait = False
 	actor = Actor(path = '../')
 else:
