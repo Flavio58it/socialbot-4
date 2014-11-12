@@ -8,7 +8,7 @@ else:
 	s = Sensor()
 
 hashtags = ['minecraft', 'dota2', 'leagueoflegends', 'gaming', 'gaymer', 'gamergate', 'vagante', 'indiegames', 'cosplay']
-sf_hashtags = ['sfnative', 'sanfrancisco', 'sfcity', 'sf', 'sfgiants', 'onlyinsf', 'sflocal']
+sf_hashtags = ['sfnative', 'sanfrancisco', 'sfcity', 'sf', 'onlyinsf', 'sflocal']
 random.shuffle(sf_hashtags)
 s.new_friends(hashtags = sf_hashtags[:4], fol_count = 1)
 s.bad_friends()
