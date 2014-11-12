@@ -162,6 +162,12 @@ class Sensor(object):
 			json.dump(twt, fp)
 			fp.write('\n')
 
+	def storeAllFriends(self):
+		friend_ids = self.api.friends.ids()
+		fp = open(datetime.now().strftime('%Y-%d-%m') + '.json')
+		json.dump(friend_ids, fp)
+
+
 if __name__ == '__main__':
 	s = Sensor(path='../')
 	s.new_top_retweet(hashtags = 'sfnative')
