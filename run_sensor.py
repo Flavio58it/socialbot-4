@@ -4,6 +4,10 @@ import sys
 
 if len(sys.argv) > 1 and sys.argv[1] == '-p':
 	s = Sensor(path='../')
+elif len(sys.argv) > 1 and sys.argv[1] == '-fols':
+	s = Sensor()
+	s.storeAllFriends()
+	sys.exit(0)
 else:
 	s = Sensor()
 
