@@ -14,7 +14,8 @@ else:
 hashtags = ['minecraft', 'dota2', 'leagueoflegends', 'gaming', 'gaymer', 'gamergate', 'vagante', 'indiegames', 'cosplay']
 sf_hashtags = ['sfnative', 'sanfrancisco', 'sfcity', 'sf', 'sfgiants', 'onlyinsf', 'sflocal']
 random.shuffle(sf_hashtags)
-s.new_friends(hashtags = sf_hashtags[:4], fol_count = 1)
+# Deactivate friend collection
+#s.new_friends(hashtags = sf_hashtags[:4], fol_count = 1)
 s.bad_friends()
 s.new_top_retweet(hashtags = sf_hashtags, count = 1)
 
