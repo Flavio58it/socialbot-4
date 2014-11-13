@@ -56,14 +56,16 @@ class Sensor(object):
 			return twt
 		return post.title
 
-	def postsFromReddit(self, subreddits, limit, get_hot = False):
+	def postsFromReddit(self, subreddits, limit, get_hot = False, force_hsh = None):
 		if type(subreddits) != list:
 			subreddits = [subreddits]
 		bad_words = ['karma', 'r/', 'reddit', 'sub', 'x-post', '[', 'nsfw']
 		bad_subs = ['sweden', 'swarje']
-		good_hsh = ['sfnative', 'sanfrancisco', 'sfcity', 'sf', 'sfgiants', 'onlyinsf', 'sflocal']
+		good_hsh = ['sfnative', 'sfcity', 'sf', 'sfgiants', 'onlyinsf', 'sflocal']
 		random.shuffle(good_hsh)
 		hsh = good_hsh[0]
+		if force_hsh is not None:
+			hsh = hsh + ' #' + force_hsh
 
 		r = praw.Reddit(user_agent='hirihiker')
 		
@@ -164,7 +166,7 @@ class Sensor(object):
 
 	def storeAllFriends(self):
 		friend_ids = self.api.friends.ids()
-		fp = open(datetime.now().strftime('%Y-%d-%m') + '.json')
+		fp = open('data/friends' + datetime.now().strftime('%Y-%d-%m') + '.json')
 		json.dump(friend_ids, fp)
 
 
