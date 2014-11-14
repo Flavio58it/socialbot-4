@@ -1,3 +1,4 @@
+regex==0.1.20130125
 Cython==0.20.1
 DataShape==0.2
 Flask==0.10.1
