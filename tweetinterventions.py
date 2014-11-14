@@ -17,7 +17,7 @@ format_hours = '%H:%M'
 format_full = format_day + ' ' + format_hours
 
 tweet_scheme = {'14-11-2014':{'twts':['some_tweet_goes_here'], 
-								'hsh': ['#getyourflueshot', '#igotminetoday'],
+								'hsh': ['#getyourflushot', '#igotminetoday'],
 								'tweet_times': ['18:36', '23:54']},
 				'12-11-2014':{'hsh': ['#newinsf', '#sfgiants']}				
 				}
@@ -36,7 +36,7 @@ wait_interval = 60
 cycle_length = 30
 
 # Each cycle is in 30 minutes.
-while now < datetime.strptime(tomorrow + ' 09:00', format_full):
+while now < datetime.strptime(tomorrow + ' 08:00', format_full):
 	start = datetime.now()
 	twts = []
 	for hsh in tweet_scheme[today]['hsh']:
