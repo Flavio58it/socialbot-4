@@ -5,6 +5,15 @@ import sys
 from time import sleep
 from numpy.random import exponential
 
+def retweet_by_id(api, twt):
+		try:
+			api.statuses.retweet(id=twt['id'])
+		except (KeyboardInterrupt, SystemExit, TransportException):
+			raise
+		except:
+			print "Unexpected error:", str(sys.exc_info())
+			pass
+
 bots = [2787456828, 2795790799, 2786086363, 1727908398, 2749655899, 2787498932, 2787463746, 2787527221, 2787481304, 1879311937, 2786427865, 2787610574, 2787474126, 2787905696, 2787485774, 2787531548, 2787514615, 2787482192, 2801335412, 2787503576, 2802511814, 2787620990, 2787486036, 2787486060, 2787499142, 197886036, 2829847496, 2786363222, 2787833887]
 
 keys = json.loads(file('auth.json').read())
@@ -67,12 +76,3 @@ while now < datetime.strptime(tomorrow + ' 08:00', format_full):
 		if len(twts) > 0:
 			max_twt_id = max([twt['id'] for twt in twts])
 		sleep((cycle_length - minutes_since)*60)
-
-def retweet_by_id(api, twt):
-		try:
-			api.statuses.retweet(id=twt['id'])
-		except (KeyboardInterrupt, SystemExit, TransportException):
-			raise
-		except:
-			print "Unexpected error:", str(sys.exc_info())
-			pass
