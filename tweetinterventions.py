@@ -1,4 +1,5 @@
 import twitter
+
 import json
 from datetime import datetime, timedelta
 import sys
@@ -8,7 +9,7 @@ from numpy.random import exponential
 def retweet_by_id(api, twt):
 		try:
 			api.statuses.retweet(id=twt['id'])
-		except (KeyboardInterrupt, SystemExit, TransportException):
+		except (KeyboardInterrupt, SystemExit):
 			raise
 		except:
 			print "Unexpected error:", str(sys.exc_info())
