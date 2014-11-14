@@ -46,6 +46,7 @@ cycle_length = 30
 
 # Each cycle is in 30 minutes.
 while now < datetime.strptime(tomorrow + ' 08:00', format_full):
+	print tomorrow + ' 08:00'
 	start = datetime.now()
 	twts = []
 	for hsh in tweet_scheme[today]['hsh']:
@@ -57,14 +58,14 @@ while now < datetime.strptime(tomorrow + ' 08:00', format_full):
 		while bot_rts < 10:
 			sleep(exponential(wait_interval))
 			retweet_by_id(api,twt)
-			print 'rt: ' + str(twt['text'])
+			#print 'rt: ' + str(twt['text'])
 			bot_rts += 1
 
 	count = 0
 	for twt in humantweets:
 		sleep(exponential(wait_interval))
 		retweet_by_id(api,twt)
-		print 'rt: ' + twt['text']
+		#print 'rt: ' + twt['text']
 		count += 1
 		if count > 14:
 			count = 0
