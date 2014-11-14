@@ -31,3 +31,4 @@ while not s.postsFromReddit(subreddit, limit = 10, force_hsh = subreddit) or not
 		subreddit = sf_subs.pop()
 	except IndexError:
 		break
+runs
