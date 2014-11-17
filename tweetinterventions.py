@@ -28,7 +28,8 @@ format_full = format_day + ' ' + format_hours
 tweet_scheme = {'14-11-2014':{'twts':['some_tweet_goes_here'], 
 								'hsh': ['#getyourflushot', '#igotminetoday'],
 								'tweet_times': ['18:36', '23:54']},
-				'12-11-2014':{'hsh': ['#newinsf', '#sfgiants']}				
+				'12-11-2014':{'hsh': ['#newinsf', '#sfgiants']}
+				'17-11-2014':{'hsh': ['#highfiveastranger']}				
 				}
 
 
@@ -72,7 +73,7 @@ while now < datetime.strptime(tomorrow + ' 08:00', format_full):
 			sleep(120)
 
 	# Wait till at least 20min have passed since last fetch of tweets.
-	minutes_since = (datetime.now() - start)/wait_interval
+	minutes_since = (datetime.now() - start).seconds/wait_interval
 	if minutes_since < cycle_length:
 		print 'Waiting: ' + str(30 - minutes_since) + 's'
 		if len(twts) > 0:
