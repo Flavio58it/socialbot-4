@@ -79,3 +79,4 @@ while now < datetime.strptime(tomorrow + ' 08:00', format_full):
 		if len(twts) > 0:
 			max_twt_id = max([twt['id'] for twt in twts])
 		sleep((cycle_length - minutes_since)*60)
+	now = datetime.now()
