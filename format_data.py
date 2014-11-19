@@ -2,9 +2,10 @@ import json
 import pandas as pd
 import time
 from datetime import datetime
-from  following_times import fols_at_followtime
 
 followers = json.loads(file('../data/followers.json').read())
+
+df_times = pd.DataFrame.from_csv('foltimes.csv')
 
 
 # load all profiles we have tried to follow
@@ -31,11 +32,9 @@ for record in records:
 	language = record['lang']
 	twt_count = record['statuses_count']
 	fav_count = record['favourites_count']
-	fols_at_time = fols_at_followtime(uid)
-	print fols_at_time
 	followback = uid in followers
 	row = {
-		'id':uid,
+		'uid':uid,
 		'tz':tz,
 		'fol_count':fol_count,
 		'fri_count':fri_count,
@@ -51,4 +50,6 @@ for record in records:
 
 dataframe = pd.DataFrame(data)
 
-dataframe.to_csv('dataframe.csv')
+alldata = dataframe.merge(df_times,on='uid')
+
+alldata.to_csv('dataframe.csv')
