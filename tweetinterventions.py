@@ -28,7 +28,7 @@ format_full = format_day + ' ' + format_hours
 tweet_scheme = {'14-11-2014':{'twts':['some_tweet_goes_here'], 
 								'hsh': ['#getyourflushot', '#igotminetoday'],
 								'tweet_times': ['18:36', '23:54']},
-				'12-11-2014':{'hsh': ['#newinsf', '#sfgiants']}
+				'12-11-2014':{'hsh': ['#newinsf', '#sfgiants']},
 				'17-11-2014':{'hsh': ['#highfiveastranger']}				
 				}
 
