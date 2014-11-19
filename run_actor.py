@@ -19,7 +19,9 @@ if initial_wait:
 
 
 counts = {'post':0, 'retwt':0, 'fol':0, 'unfol':0, 'fav':0}
+
 maxes = {'post':1, 'retwt':1 , 'fol':55, 'unfol':30, 'fav':6}
+
 methods = ['post', 'retwt', 'fol', 'unfol']
 start = time.time()
 
