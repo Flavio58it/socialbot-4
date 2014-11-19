@@ -15,7 +15,7 @@ class Twitterapi(object):
 			auth = twitter.OAuth(keys['OAUTH_TOKEN'], keys['OAUTH_TOKEN_SECRET'],
                             keys['APP_KEY'], keys['APP_SECRET'])
 
-			self.api = twitter.Twitter(auth=auth)
+			self.twitter_api = twitter.Twitter(auth=auth)
 			self.path = path
 
 	def get_user_ids(self, filename):
