@@ -29,7 +29,12 @@ tweet_scheme = {'14-11-2014':{'twts':['some_tweet_goes_here'],
 								'hsh': ['#getyourflushot', '#igotminetoday'],
 								'tweet_times': ['18:36', '23:54']},
 				'12-11-2014':{'hsh': ['#newinsf', '#sfgiants']},
-				'17-11-2014':{'hsh': ['#highfiveastranger']}				
+				'17-11-2014':{'hsh': ['#highfiveastranger']},
+				'19-11-2014':{'hsh': ['#GoldenGateAliens']},
+				'24-11-2014':{'hsh': ['#somethinggood']},
+				'26-11-2014':{'hsh': ['#turkeyface']},
+				'27-11-2014':{'hsh': ['#SFThanks']},
+				'28-11-2014':{'hsh': ['#blackfridaystories']}
 				}
 
 
