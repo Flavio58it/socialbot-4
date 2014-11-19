@@ -15,6 +15,8 @@ def retweet_by_id(api, twt):
 			print "Unexpected error:", str(sys.exc_info())
 			pass
 
+
+
 bots = [2787456828, 2795790799, 2786086363, 1727908398, 2749655899, 2787498932, 2787463746, 2787527221, 2787481304, 1879311937, 2786427865, 2787610574, 2787474126, 2787905696, 2787485774, 2787531548, 2787514615, 2787482192, 2801335412, 2787503576, 2802511814, 2787620990, 2787486036, 2787486060, 2787499142, 197886036, 2829847496, 2786363222, 2787833887]
 
 keys = json.loads(file('auth.json').read())
@@ -30,8 +32,8 @@ tweet_scheme = {'14-11-2014':{'twts':['some_tweet_goes_here'],
 								'tweet_times': ['18:36', '23:54']},
 				'12-11-2014':{'hsh': ['#newinsf', '#sfgiants']},
 				'17-11-2014':{'hsh': ['#highfiveastranger']},
-				'19-11-2014':{'hsh': ['#GoldenGateAliens']},
-				'24-11-2014':{'hsh': ['#somethinggood']},
+				'19-11-2014':{'hsh': ['#somethinggood']},
+				'24-11-2014':{'hsh': ['#GoldenGateAliens']},
 				'26-11-2014':{'hsh': ['#turkeyface']},
 				'27-11-2014':{'hsh': ['#SFThanks']},
 				'28-11-2014':{'hsh': ['#blackfridaystories']}
