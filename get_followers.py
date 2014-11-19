@@ -4,16 +4,18 @@ import json
 from time import sleep
 
 
-def get_fols():
-	keys = json.loads(file('/home/ubuntu/auth.json').read())
 
-	auth = twitter.OAuth(keys['OAUTH_TOKEN'], keys['OAUTH_TOKEN_SECRET'],
-	keys['APP_KEY'], keys['APP_SECRET'])
+keys = json.loads(file('/home/ubuntu/auth.json').read())
 
-	api = twitter.Twitter(auth=auth)
+auth = twitter.OAuth(keys['OAUTH_TOKEN'], keys['OAUTH_TOKEN_SECRET'],
+keys['APP_KEY'], keys['APP_SECRET'])
 
-	followers = api.followers.ids()['ids']
+api = twitter.Twitter(auth=auth)
 
-	return followers
+followers = api.followers.ids()['ids']
+
+f = open('/home/ubuntu/data/followers.json','wb')
+f.write(json.dumps(followers))
+f.close()
 
 
