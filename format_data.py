@@ -3,11 +3,13 @@ import pandas as pd
 import time
 from datetime import datetime
 
-followers = json.loads(file('/home/ubuntu/data/followers.json').read())
+followers = json.loads(file('../data/followers.json').read())
+
+df_times = pd.DataFrame.from_csv('foltimes.csv')
 
 
 # load all profiles we have tried to follow
-f = open('/home/ubuntu/data/tried_to_follow.json','r')
+f = open('../data/tried_to_follow.json','r')
 
 lines = f.read().split('\n')[:-1]
 
@@ -20,7 +22,7 @@ seen_users = []
 
 data = []
 for record in records:
-	_id = record['id']
+	uid = record['id']
 	tz = record['time_zone']
 	fol_count = record['followers_count']
 	fri_count = record['friends_count']
@@ -30,9 +32,9 @@ for record in records:
 	language = record['lang']
 	twt_count = record['statuses_count']
 	fav_count = record['favourites_count']
-	followback = _id in followers
+	followback = uid in followers
 	row = {
-		'id':_id,
+		'uid':uid,
 		'tz':tz,
 		'fol_count':fol_count,
 		'fri_count':fri_count,
@@ -42,10 +44,12 @@ for record in records:
 		'fav_count':fav_count,
 		'followback':followback
 	}
-	if _id not in seen_users:
+	if uid not in seen_users:
 		data.append(row)
-		seen_users.append(_id)
+		seen_users.append(uid)
 
 dataframe = pd.DataFrame(data)
 
-dataframe.to_csv('dataframe.csv')
+alldata = dataframe.merge(df_times,on='uid')
+
+alldata.to_csv('dataframe.csv')
