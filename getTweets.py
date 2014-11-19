@@ -9,14 +9,14 @@ import time
 
 class Twitterapi(object):
 	"""docstring for twitterapi"""
-	def __init__(self,path='/home/ubuntu/'):
+	def __init__(self, path='/home/ubuntu'):
 			keys = json.loads(file(path + 'auth.json').read())
 
 			auth = twitter.OAuth(keys['OAUTH_TOKEN'], keys['OAUTH_TOKEN_SECRET'],
                             keys['APP_KEY'], keys['APP_SECRET'])
 
 			self.api = twitter.Twitter(auth=auth)
-			self.path = sys.path[0]
+			self.path = path
 
 	def get_user_ids(self, filename):
 		user_ids = []
@@ -39,7 +39,7 @@ class Twitterapi(object):
 		f.close()
 
 	def main(self):
-		filename = "../data/tried_to_follow.json"
+		filename = "/data/tried_to_follow.json"
 
 		get_tweets_from_ids = list(set(twitterapi.get_user_ids(filename)))
 		print "Number of ids in file: %i" % len(get_tweets_from_ids)
