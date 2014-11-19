@@ -39,7 +39,7 @@ class Twitterapi(object):
 		f.close()
 
 	def main(self):
-		filename = "data/tried_to_follow.json"
+		filename = "../data/tried_to_follow.json"
 
 		get_tweets_from_ids = list(set(twitterapi.get_user_ids(filename)))
 		print "Number of ids in file: %i" % len(get_tweets_from_ids)
