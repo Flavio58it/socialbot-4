@@ -10,7 +10,7 @@ import time
 class Twitterapi(object):
 	"""docstring for twitterapi"""
 	def __init__(self, path='/home/ubuntu'):
-			keys = json.loads(file(path + 'auth.json').read())
+			keys = json.loads(file(path + '/auth.json').read())
 
 			auth = twitter.OAuth(keys['OAUTH_TOKEN'], keys['OAUTH_TOKEN_SECRET'],
                             keys['APP_KEY'], keys['APP_SECRET'])
