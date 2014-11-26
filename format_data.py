@@ -30,7 +30,7 @@ for record in records:
 	cluster_score = cluster_scores[uid]
 	topic1_score = cluster_score[0] if len(cluster_score)>0 else 0
 	topic2_score = cluster_score[1] if len(cluster_score)>0 else 0
-	
+	common_fols = len(record['common_fols'])
 	tz = record['time_zone']
 	fol_count = record['followers_count']
 	fri_count = record['friends_count']
@@ -53,6 +53,7 @@ for record in records:
 		'followback':followback,
         'topic1':topic1_score,
         'topic2':topic2_score,
+        'common_fols':common_fols,
 	}
 	if uid not in seen_users:
 		data.append(row)
