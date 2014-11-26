@@ -2,10 +2,14 @@ import json
 import pandas as pd
 import time
 from datetime import datetime
+import pickle
 
 followers = json.loads(file('../data/followers.json').read())
 
 df_times = pd.DataFrame.from_csv('foltimes.csv')
+
+
+cluster_scores = pickle.load(open('cluster_scores.pickle','r'))
 
 
 # load all profiles we have tried to follow
@@ -23,6 +27,10 @@ seen_users = []
 data = []
 for record in records:
 	uid = record['id']
+	cluster_score = cluster_scores[uid]
+	topic1_score = cluster_score[0] if len(cluster_score)>0 else 0
+	topic2_score = cluster_score[1] if len(cluster_score)>0 else 0
+	
 	tz = record['time_zone']
 	fol_count = record['followers_count']
 	fri_count = record['friends_count']
@@ -42,7 +50,9 @@ for record in records:
 		'language':language,
 		'twt_count':twt_count,
 		'fav_count':fav_count,
-		'followback':followback
+		'followback':followback,
+        'topic1':topic1_score,
+        'topic2':topic2_score,
 	}
 	if uid not in seen_users:
 		data.append(row)
