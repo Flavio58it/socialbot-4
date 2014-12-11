@@ -9,8 +9,8 @@ import time
 
 class Twitterapi(object):
 	"""docstring for twitterapi"""
-	def __init__(self, path='/home/ubuntu'):
-			keys = json.loads(file(path + '/auth.json').read())
+	def __init__(self, path='/home/ubuntu/'):
+			keys = json.loads(file(path + 'auth.json').read())
 
 			auth = twitter.OAuth(keys['OAUTH_TOKEN'], keys['OAUTH_TOKEN_SECRET'],
                             keys['APP_KEY'], keys['APP_SECRET'])
@@ -31,20 +31,21 @@ class Twitterapi(object):
 		try:
 			return self.twitter_api.statuses.user_timeline(user_id = _id, count = count)
 		except: 
+			print sys.exc_info()
 			return []
 
 	def add_tweets_to_file(self, _id, tweets):
-		f = open(self.path + "/tweets.json", "a")
+		f = open(self.path + "tweets.json", "a")
 		f.write(json.dumps({"id": _id, "tweets": tweets}) + "\n")
 		f.close()
 
 	def main(self):
-		filename = "/data/tried_to_follow.json"
+		filename = "data/tried_to_follow.json"
 
 		get_tweets_from_ids = list(set(twitterapi.get_user_ids(filename)))
 		print "Number of ids in file: %i" % len(get_tweets_from_ids)
 
-		already_got_from_ids = twitterapi.get_user_ids("/tweets.json")
+		already_got_from_ids = twitterapi.get_user_ids("tweets.json")
 		print len(already_got_from_ids)
 
 		missing_ids = [_id for _id in get_tweets_from_ids if _id not in already_got_from_ids]
@@ -69,6 +70,6 @@ class Twitterapi(object):
 
 if __name__ == "__main__":
 	import sys
-	twitterapi = Twitterapi()
+	twitterapi = Twitterapi(path = '')
 	twitterapi.main()
 
